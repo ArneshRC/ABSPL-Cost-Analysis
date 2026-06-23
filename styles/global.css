@@ -27,38 +27,13 @@ body {
 }
 
 .wrap {
+	position: relative;
 	max-width: 1120px;
 	margin: 0 auto;
 	padding: var(--space-5) var(--space-3);
 }
 
-@media (max-width: 680px) {
-	.wrap {
-		padding: var(--space-4) var(--space-2);
-	}
-}
-
 /* header */
-.eyebrow {
-	font-family: "IBM Plex Mono", monospace;
-	font-size: 12px;
-	letter-spacing: 0.18em;
-	text-transform: uppercase;
-	color: var(--bv-deep);
-	margin: 0 0 var(--space-2);
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.eyebrow::before {
-	content: "";
-	width: 28px;
-	height: 2px;
-	background: var(--bv);
-	display: inline-block;
-}
-
 h1 {
 	font-family: "Space Grotesk", sans-serif;
 	font-weight: 600;
