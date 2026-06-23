@@ -60,6 +60,66 @@ export function computeOlsRegression(plans) {
 	};
 }
 
+/**
+ * Lower-left envelope of the cost-vs-speed cloud: the cheapest plan at each
+ * speed that nothing faster-or-equal undercuts. Returns vertices sorted slow→
+ * fast, each annotated with the marginal cost (₹ per extra Mbps) of the step
+ * that reaches it, plus the knee — the vertex after which that marginal cost
+ * spikes hardest (the last cheap tier before the price of speed cliffs).
+ */
+export function computeEfficientFrontier(plans) {
+	const undominated = plans.filter(
+		(plan) =>
+			!plans.some(
+				(other) =>
+					other !== plan &&
+					other.speedMbps >= plan.speedMbps &&
+					other.costPerMonth <= plan.costPerMonth &&
+					(other.speedMbps > plan.speedMbps ||
+						other.costPerMonth < plan.costPerMonth),
+			),
+	);
+
+	// One vertex per speed (dominance already dropped pricier ties), slow→fast.
+	const cheapestBySpeed = new Map();
+	for (const plan of undominated) {
+		if (!cheapestBySpeed.has(plan.speedMbps)) {
+			cheapestBySpeed.set(plan.speedMbps, plan);
+		}
+	}
+	const vertices = [...cheapestBySpeed.values()]
+		.sort((a, b) => a.speedMbps - b.speedMbps)
+		.map((plan) => ({
+			planName: plan.planName,
+			speedMbps: plan.speedMbps,
+			costPerMonth: plan.costPerMonth,
+			marginalPerMbps: null,
+		}));
+
+	for (let index = 1; index < vertices.length; index++) {
+		const deltaCost =
+			vertices[index].costPerMonth - vertices[index - 1].costPerMonth;
+		const deltaSpeed =
+			vertices[index].speedMbps - vertices[index - 1].speedMbps;
+		vertices[index].marginalPerMbps = deltaCost / deltaSpeed;
+	}
+
+	// Knee: interior vertex where the next step's marginal cost jumps most above
+	// the step that reached it.
+	let kneeIndex = -1;
+	let largestJump = -Infinity;
+	for (let index = 1; index < vertices.length - 1; index++) {
+		const jump =
+			vertices[index + 1].marginalPerMbps - vertices[index].marginalPerMbps;
+		if (jump > largestJump) {
+			largestJump = jump;
+			kneeIndex = index;
+		}
+	}
+
+	return { vertices, kneeIndex };
+}
+
 /** Classify a validity window into a billing-term bucket key. */
 function validityBucketKey(validityDays) {
 	if (validityDays === 30) return "30";

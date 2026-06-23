@@ -197,10 +197,19 @@ h1 {
 	max-width: 52ch;
 }
 
+/* Let the heading/description take the remaining width so the controls stay
+   beside it on the right instead of wrapping onto a full-width row below. */
+.card-head > div:first-child {
+	flex: 1;
+	min-width: 0;
+}
+
 .controls {
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
+	justify-content: flex-end;
+	flex: 1;
 }
 
 .toggle {
@@ -265,6 +274,14 @@ h1 {
 		transparent 5px 9px
 	);
 	height: 3px;
+}
+
+.toggle[data-on="fr"] {
+	color: var(--fr-deep);
+}
+
+.toggle[data-on="fr"] .sw {
+	background: var(--fr);
 }
 
 .toggle.off {

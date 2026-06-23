@@ -18,6 +18,8 @@ export function readThemePalette() {
 		regressionDeep: cssVar("--ols-deep"),
 		leastCost: cssVar("--lc"),
 		leastCostDeep: cssVar("--lc-deep"),
+		frontier: cssVar("--fr"),
+		frontierDeep: cssVar("--fr-deep"),
 		sliderFill: cssVar("--slider-fill"),
 		sliderSelectedFill: cssVar("--slider-selected-fill"),
 		categoryColors: {

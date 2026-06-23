@@ -1,4 +1,5 @@
 import {
+	computeEfficientFrontier,
 	computeOlsRegression,
 	derivePlanMetrics,
 	groupOverlappingPlans,
@@ -18,6 +19,7 @@ async function initialiseDashboard() {
 		plan.costPerMonth < cheapest.costPerMonth ? plan : cheapest,
 	);
 	const regression = computeOlsRegression(plans);
+	const frontier = computeEfficientFrontier(plans);
 	const groups = groupOverlappingPlans(plans, bestValuePlan);
 	const theme = readThemePalette();
 
@@ -29,6 +31,7 @@ async function initialiseDashboard() {
 		bestValuePlan,
 		leastCostPlan,
 		regression,
+		frontier,
 		theme,
 	});
 	wireControls(chart);

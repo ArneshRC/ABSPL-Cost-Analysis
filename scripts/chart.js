@@ -28,6 +28,7 @@ const STAR_SYMBOL_PATH =
  * @param {object}      args.bestValuePlan  Cheapest-rate plan.
  * @param {object}      args.leastCostPlan  Cheapest monthly-cost plan.
  * @param {object}      args.regression     OLS fit summary.
+ * @param {object}      args.frontier       Efficient-frontier vertices + knee.
  * @param {object}      args.theme          Colour palette from readThemePalette.
  */
 export function createCostSpeedChart({
@@ -36,6 +37,7 @@ export function createCostSpeedChart({
 	bestValuePlan,
 	leastCostPlan,
 	regression,
+	frontier,
 	theme,
 }) {
 	const prefersReducedMotion = matchMedia(
@@ -46,6 +48,7 @@ export function createCostSpeedChart({
 	let isBestValueLineVisible = true;
 	let isRegressionLineVisible = false;
 	let isLeastCostLineVisible = true;
+	let isFrontierVisible = false;
 
 	function scatterPointsForBucket(validityBucket) {
 		return groups
@@ -78,6 +81,7 @@ export function createCostSpeedChart({
 	const regressionLineSeries = buildRegressionLineSeries(regression, theme);
 	const leastCostLineSeries = buildLeastCostLineSeries(leastCostPlan, theme);
 	const bestValueMarkerSeries = buildBestValueMarkerSeries(groups, theme);
+	const frontierSeries = buildFrontierSeries(frontier, theme);
 
 	function buildSeries() {
 		const series = [
@@ -90,6 +94,7 @@ export function createCostSpeedChart({
 		if (isBestValueLineVisible) series.push(bestValueLineSeries);
 		if (isRegressionLineVisible) series.push(regressionLineSeries);
 		if (isLeastCostLineVisible) series.push(leastCostLineSeries);
+		if (isFrontierVisible) series.push(...frontierSeries);
 		return series;
 	}
 
@@ -284,6 +289,12 @@ export function createCostSpeedChart({
 			rerenderSeries();
 			return isLeastCostLineVisible;
 		},
+		/** Toggle the efficient-frontier overlay; returns its new visibility. */
+		toggleFrontier() {
+			isFrontierVisible = !isFrontierVisible;
+			rerenderSeries();
+			return isFrontierVisible;
+		},
 		/** Restore all three dataZoom ranges to their full extent. */
 		resetZoom() {
 			for (const dataZoomIndex of [0, 1, 2]) {
@@ -365,7 +376,7 @@ function buildBestValueLineSeries(bestValuePlan, theme) {
 				},
 			},
 		],
-		lineStyle: { color: theme.bestValue, width: 2.4, type: [7, 5] },
+		lineStyle: { color: theme.bestValue, width: 2.4 },
 		z: 5,
 	};
 }
@@ -396,6 +407,107 @@ function buildLeastCostLineSeries(leastCostPlan, theme) {
 		lineStyle: { color: theme.leastCost, width: 2.4, type: [2, 4] },
 		z: 3,
 	};
+}
+
+/**
+ * The efficient-frontier overlay: a polyline through the cheapest plan at each
+ * speed tier, a tag on each segment with its marginal ₹-per-extra-Mbps, and a
+ * ring around the knee (the last cheap tier before the price of speed cliffs).
+ * Returned as separate series so they layer correctly over the scatter.
+ */
+function buildFrontierSeries(frontier, theme) {
+	const { vertices, kneeIndex } = frontier;
+
+	const lineSeries = {
+		name: "__frontierLine",
+		type: "line",
+		showSymbol: true,
+		symbol: "circle",
+		symbolSize: 6,
+		silent: true,
+		data: vertices.map((vertex, index) => {
+			const point = {
+				value: [vertex.speedMbps, Math.round(vertex.costPerMonth)],
+			};
+			if (index === vertices.length - 1) {
+				point.label = {
+					show: true,
+					formatter: "value frontier",
+					position: "top",
+					color: theme.frontierDeep,
+					fontFamily: MONO_FONT,
+					fontSize: 11,
+					offset: [-12, -2],
+				};
+			}
+			return point;
+		}),
+		lineStyle: { color: theme.frontier, width: 2.4 },
+		itemStyle: { color: theme.frontier, borderColor: "#fff", borderWidth: 1 },
+		z: 4,
+	};
+
+	const marginalLabelSeries = {
+		name: "__frontierMarginal",
+		type: "scatter",
+		symbolSize: 0,
+		silent: true,
+		data: vertices.slice(1).map((vertex, index) => {
+			const previous = vertices[index];
+			return {
+				value: [
+					(previous.speedMbps + vertex.speedMbps) / 2,
+					Math.round((previous.costPerMonth + vertex.costPerMonth) / 2),
+				],
+				label: { formatter: `₹${vertex.marginalPerMbps.toFixed(2)}/Mbps` },
+			};
+		}),
+		label: {
+			show: true,
+			position: "top",
+			color: theme.frontierDeep,
+			fontFamily: MONO_FONT,
+			fontSize: 10,
+			backgroundColor: "rgba(255,255,255,0.82)",
+			padding: [2, 4],
+			borderRadius: 4,
+		},
+		z: 7,
+	};
+
+	const knee = kneeIndex >= 0 ? vertices[kneeIndex] : null;
+	const kneeSeries = {
+		name: "__frontierKnee",
+		type: "scatter",
+		symbol: "circle",
+		symbolSize: 15,
+		silent: true,
+		data: knee
+			? [
+					{
+						value: [knee.speedMbps, Math.round(knee.costPerMonth)],
+						label: {
+							show: true,
+							formatter: `knee · ${knee.speedMbps} Mbps`,
+							position: "bottom",
+							color: theme.frontierDeep,
+							fontFamily: MONO_FONT,
+							fontSize: 11,
+							fontWeight: 600,
+							offset: [0, 4],
+						},
+					},
+				]
+			: [],
+		itemStyle: {
+			color: "transparent",
+			borderColor: theme.frontierDeep,
+			borderWidth: 2.2,
+		},
+		z: 8,
+	};
+
+	return [lineSeries, marginalLabelSeries, kneeSeries];
 }
 
 /** OLS regression line clipped to the visible plot rectangle. */
@@ -432,7 +544,7 @@ function buildRegressionLineSeries(regression, theme) {
 				},
 			},
 		],
-		lineStyle: { color: theme.regression, width: 2.4 },
+		lineStyle: { color: theme.regression, width: 2.4, type: [7, 5] },
 		z: 4,
 	};
 }

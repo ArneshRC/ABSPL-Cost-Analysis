@@ -2,7 +2,7 @@
 
 /** Format a rupee amount with Indian digit grouping, rounded to whole rupees. */
 export function formatRupees(amount) {
-	return `₹${Math.round(amount).toLocaleString("en-IN")}`;
+	return `₹${parseInt(Math.round(amount)).toLocaleString("en-IN")}`;
 }
 
 /** Convert a validity window in days into an equivalent number of 30-day months. */

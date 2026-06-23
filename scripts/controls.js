@@ -6,10 +6,16 @@
  * @param {ReturnType<import("./chart.js").createCostSpeedChart>} chart
  */
 export function wireControls(chart) {
+	const frontierToggle = document.getElementById("t-fr");
 	const bestValueToggle = document.getElementById("t-bv");
 	const leastCostToggle = document.getElementById("t-lc");
 	const regressionToggle = document.getElementById("t-ols");
 	const resetButton = document.getElementById("t-reset");
+
+	frontierToggle.addEventListener("click", () => {
+		const isVisible = chart.toggleFrontier();
+		frontierToggle.classList.toggle("off", !isVisible);
+	});
 
 	bestValueToggle.addEventListener("click", () => {
 		const isVisible = chart.toggleBestValueLine();

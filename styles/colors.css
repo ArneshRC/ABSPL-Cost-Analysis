@@ -18,6 +18,8 @@
 	--ols-deep: #9c5a3d;
 	--lc: #b8a25e; /* least-cost line (muted gold) */
 	--lc-deep: #8f7c43;
+	--fr: #4a7c70; /* efficient frontier (deep teal-green) */
+	--fr-deep: #355c52;
 	--t30: #8e8e86; /* 30-day — neutral grey */
 	--t90: #a189ae; /* 60–90 day — muted purple */
 	--tlong: #bb7b7f; /* annual — muted rose */
