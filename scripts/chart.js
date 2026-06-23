@@ -98,11 +98,13 @@ export function createCostSpeedChart({
 		const [speedMbps, costPerMonth] = params.data.value;
 		const ratePerMbps = (costPerMonth / speedMbps).toFixed(2);
 		const stackedPlans = params.data.plans;
+		const monthlyDelta = costPerMonth - leastCostPlan.costPerMonth;
 
 		let html =
 			`<div class="tt"><div class="tt-h"><span style="color:${theme.ink}">${speedMbps} Mbps</span>` +
 			`<span>₹${ratePerMbps}/Mbps/mo</span></div>` +
-			`<div class="tt-sub" style="color:${theme.leastCostDeep}">${formatRupees(costPerMonth)}/month</div>`;
+			`<div class="tt-sub" style="color:${theme.leastCostDeep}">${formatRupees(costPerMonth)}/month ` +
+			`(Δ = ${formatRupees(monthlyDelta)})</div>`;
 		for (const plan of stackedPlans) {
 			html +=
 				`<div class="tt-row"><span class="nm">${plan.planName}</span>` +
