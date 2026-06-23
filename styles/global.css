@@ -33,6 +33,50 @@ body {
 	padding: var(--space-5) var(--space-3);
 }
 
+/* View-on-GitHub button — top right, matches the mono toggle styling */
+.gh-btn {
+	position: absolute;
+	top: var(--space-3);
+	right: var(--space-3);
+	z-index: 2;
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 12px;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+	border: 1px solid var(--line);
+	background: var(--surface);
+	color: var(--ink-soft);
+	padding: 7px 13px;
+	border-radius: 9px;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	transition: all 0.15s ease;
+}
+
+.gh-btn:hover {
+	border-color: var(--hover-line);
+	color: var(--ink);
+}
+
+.gh-btn .gh-ico {
+	flex: none;
+	display: block;
+}
+
+@media (max-width: 680px) {
+	.gh-btn {
+		top: var(--space-2);
+		right: var(--space-2);
+	}
+}
+
+@media (max-width: 680px) {
+	.wrap {
+		padding: var(--space-5) var(--space-2);
+	}
+}
+
 /* header */
 h1 {
 	font-family: "Space Grotesk", sans-serif;
