@@ -93,18 +93,31 @@ export function createCostSpeedChart({
 		return series;
 	}
 
+	/* Cheapest monthly cost among plans offering at least a given speed — the
+	   efficient-frontier cost at that speed. How far a plan sits above this is
+	   what the tooltip reports as Δ; frontier plans read zero. */
+	const allPlans = groups.flatMap((group) => group.plans);
+	function cheapestCostAtLeastSpeed(speedMbps) {
+		return Math.min(
+			...allPlans
+				.filter((plan) => plan.speedMbps >= speedMbps)
+				.map((plan) => plan.costPerMonth),
+		);
+	}
+
 	function formatTooltip(params) {
 		if (!params.data?.plans) return "";
 		const [speedMbps, costPerMonth] = params.data.value;
 		const ratePerMbps = (costPerMonth / speedMbps).toFixed(2);
 		const stackedPlans = params.data.plans;
-		const monthlyDelta = costPerMonth - leastCostPlan.costPerMonth;
+		const frontierOverpay = costPerMonth - cheapestCostAtLeastSpeed(speedMbps);
+		const deltaText = `Δ = ${formatRupees(frontierOverpay)}/mo`;
 
 		let html =
 			`<div class="tt"><div class="tt-h"><span style="color:${theme.ink}">${speedMbps} Mbps</span>` +
 			`<span>₹${ratePerMbps}/Mbps/mo</span></div>` +
 			`<div class="tt-sub" style="color:${theme.leastCostDeep}">${formatRupees(costPerMonth)}/month ` +
-			`(Δ = ${formatRupees(monthlyDelta)})</div>`;
+			`(${deltaText})</div>`;
 		for (const plan of stackedPlans) {
 			html +=
 				`<div class="tt-row"><span class="nm">${plan.planName}</span>` +
