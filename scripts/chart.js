@@ -15,6 +15,10 @@ const MOBILE_BREAKPOINT_PX = 560;
 const MONO_FONT = "IBM Plex Mono";
 const SANS_FONT = "IBM Plex Sans";
 
+const STAR_SYMBOL_PATH =
+	"path://M0,-50 L11.23,-15.45 L47.55,-15.45 L18.17,5.9 L29.39,40.45 " +
+	"L0,19.1 L-29.39,40.45 L-18.17,5.9 L-47.55,-15.45 L-11.23,-15.45 Z";
+
 /**
  * Create the chart and return handlers the controls layer can call.
  *
@@ -73,6 +77,7 @@ export function createCostSpeedChart({
 	const bestValueLineSeries = buildBestValueLineSeries(bestValuePlan, theme);
 	const regressionLineSeries = buildRegressionLineSeries(regression, theme);
 	const leastCostLineSeries = buildLeastCostLineSeries(leastCostPlan, theme);
+	const bestValueMarkerSeries = buildBestValueMarkerSeries(groups, theme);
 
 	function buildSeries() {
 		const series = [
@@ -80,6 +85,7 @@ export function createCostSpeedChart({
 			makeScatterSeries("90"),
 			makeScatterSeries("long"),
 			makeScatterSeries("mix"),
+			bestValueMarkerSeries,
 		];
 		if (isBestValueLineVisible) series.push(bestValueLineSeries);
 		if (isRegressionLineVisible) series.push(regressionLineSeries);
@@ -279,6 +285,39 @@ export function createCostSpeedChart({
 			chart.resize();
 			applyResponsiveLayout();
 		},
+	};
+}
+
+/** Highlighted star marker for the best-value plan's coordinate group. */
+function buildBestValueMarkerSeries(groups, theme) {
+	const bestValueGroup = groups.find((group) => group.containsBestValue);
+	const data = bestValueGroup
+		? [
+				{
+					value: [
+						bestValueGroup.speedMbps,
+						Math.round(bestValueGroup.costPerMonth),
+					],
+					plans: bestValueGroup.plans,
+				},
+			]
+		: [];
+	return {
+		name: BEST_VALUE_SERIES_NAME,
+		type: "scatter",
+		symbol: STAR_SYMBOL_PATH,
+		symbolSize: 22,
+		data,
+		itemStyle: {
+			color: theme.bestValue,
+			borderColor: "#fff",
+			borderWidth: 1.5,
+		},
+		emphasis: {
+			scale: 1.3,
+			itemStyle: { borderColor: theme.bestValueDeep, borderWidth: 2 },
+		},
+		z: 6,
 	};
 }
 
