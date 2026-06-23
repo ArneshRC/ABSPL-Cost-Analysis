@@ -273,6 +273,25 @@ h1 {
 	transform: translateY(0);
 }
 
+/* Two-part tooltip: plain-English lead, then a divided formula section. */
+.tip-lead {
+	display: block;
+}
+
+.tip-math {
+	display: block;
+	margin-top: 7px;
+	padding-top: 7px;
+	border-top: 1px solid var(--line);
+	color: var(--ink-faint);
+}
+
+.tip-lead b,
+.tip-math b {
+	color: var(--ink-soft);
+	font-weight: 600;
+}
+
 .tip .katex {
 	font-size: 1.03em;
 }
