@@ -9,7 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/colors.css">
 <link rel="stylesheet" href="styles/global.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script type="module" src="scripts/main.js"></script>
 </head>
 <body>
@@ -49,11 +52,11 @@
         <p>Drag to zoom into the dense cluster. Hover any point — stacked plans expand to show each name and its validity. Beside each plan's monthly cost, <b>Δ</b> is how much more it costs per month than the cheapest plan <b>offering at least its speed</b>.</p>
       </div>
       <div class="controls">
-        <div class="toggle off" data-on="fr" id="t-fr"><span class="sw"></span>Value frontier</div>
-        <div class="toggle" data-on="bv" id="t-bv"><span class="sw"></span>Best-value line</div>
-        <div class="toggle" data-on="lc" id="t-lc"><span class="sw"></span>Least-cost line</div>
-        <div class="toggle off" data-on="ols" id="t-ols"><span class="sw"></span>OLS fit</div>
-        <div class="toggle reset" id="t-reset" title="Reset zoom"><span class="ico">↺</span>Reset scale</div>
+        <div class="toggle off" data-on="fr" id="t-fr"><span class="sw"></span>Value frontier<span class="info" tabindex="0" role="note" aria-label="About the value frontier">i<span class="tip">The cheapest plan at each speed, joined into the value frontier. Each segment is tagged with the marginal cost of stepping up a tier, $\frac{\Delta\,\text{cost/mo}}{\Delta\,\text{Mbps}}$; the knee marks the last tier before that cost spikes.</span></span></div>
+        <div class="toggle" data-on="bv" id="t-bv"><span class="sw"></span>Best-value line<span class="info" tabindex="0" role="note" aria-label="About the best-value line">i<span class="tip">A ray from the origin through the plan with the lowest rate $\frac{\text{cost/mo}}{\text{Mbps}}$. Any point below the line is better raw value; the flatter the ray, the cheaper each Mbps.</span></span></div>
+        <div class="toggle" data-on="lc" id="t-lc"><span class="sw"></span>Least-cost line<span class="info" tabindex="0" role="note" aria-label="About the least-cost line">i<span class="tip">A flat line at the lowest monthly cost, $\min(\text{cost/mo})$, ignoring speed entirely — the least you can pay to be connected at all.</span></span></div>
+        <div class="toggle off" data-on="ols" id="t-ols"><span class="sw"></span>OLS fit<span class="info" tabindex="0" role="note" aria-label="About the OLS fit">i<span class="tip">Least-squares trend of cost against speed, $\text{cost}\approx m\cdot\text{speed}+c$. The slope $m$ is the market's average ₹ per Mbps; $R^2$ says how much of the spread speed explains.</span></span></div>
+        <div class="toggle reset" id="t-reset" title="Reset zoom"><span class="ico">↺</span>Reset scale<span class="info" tabindex="0" role="note" aria-label="About reset scale">i<span class="tip">Restores the chart to full zoom, undoing any drag-zoom on the speed or cost axes.</span></span></div>
       </div>
     </div>
     <div id="chart"></div>
@@ -84,5 +87,16 @@
   <footer id="foot"></footer>
 
 </div>
+<script>
+  /* Render the KaTeX in the control tooltips once the deferred CDN scripts run. */
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.renderMathInElement) {
+      renderMathInElement(document.querySelector(".controls"), {
+        delimiters: [{ left: "$", right: "$", display: false }],
+        throwOnError: false,
+      });
+    }
+  });
+</script>
 </body>
 </html>

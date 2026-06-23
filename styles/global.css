@@ -209,10 +209,76 @@ h1 {
 	gap: 8px;
 	flex-wrap: wrap;
 	justify-content: flex-end;
+	align-items: flex-start;
+	align-content: flex-start;
 	flex: 1;
 }
 
+/* An info dot tucked into each toggle's right margin reveals a tooltip. */
+.info {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 1px solid var(--axis);
+	color: var(--ink-faint);
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 10px;
+	font-style: italic;
+	line-height: 1;
+	cursor: help;
+	user-select: none;
+}
+
+.info:hover,
+.info:focus-visible {
+	border-color: var(--ink-faint);
+	color: var(--ink-soft);
+	outline: none;
+}
+
+.tip {
+	position: absolute;
+	top: calc(100% + 7px);
+	right: 0;
+	z-index: 1000;
+	width: 240px;
+	padding: 10px 12px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	box-shadow: 0 8px 28px rgba(32, 32, 32, 0.13);
+	font-family: "IBM Plex Sans", sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.45;
+	letter-spacing: normal;
+	text-align: left;
+	color: var(--ink-soft);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-4px);
+	transition: opacity 0.15s ease, transform 0.15s ease;
+	pointer-events: none;
+}
+
+.info:hover .tip,
+.info:focus .tip,
+.info:focus-within .tip {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+.tip .katex {
+	font-size: 1.03em;
+}
+
 .toggle {
+	position: relative;
 	font-family: "IBM Plex Mono", monospace;
 	font-size: 12px;
 	letter-spacing: 0.02em;
@@ -284,7 +350,15 @@ h1 {
 	background: var(--fr);
 }
 
+/* Dim the off button's own chrome without wrapping the nested tooltip in an
+   opacity group — a descendant can't undo an ancestor's opacity, so blanket
+   opacity here would also fade the tip. */
 .toggle.off {
+	color: var(--ink-faint);
+	border-color: var(--line);
+}
+
+.toggle.off .sw {
 	opacity: 0.42;
 }
 
