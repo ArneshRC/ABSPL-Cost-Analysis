@@ -21,7 +21,7 @@ async function initialiseDashboard() {
 	const groups = groupOverlappingPlans(plans, bestValuePlan);
 	const theme = readThemePalette();
 
-	renderSummary({ dataset, bestValuePlan, regression });
+	renderSummary({ dataset, bestValuePlan, leastCostPlan, regression });
 
 	const chart = createCostSpeedChart({
 		chartElement: document.getElementById("chart"),

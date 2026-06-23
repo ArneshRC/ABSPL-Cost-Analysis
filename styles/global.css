@@ -146,6 +146,25 @@ h1 {
 	font-weight: 500;
 }
 
+.stat .sub {
+  display: flex;
+  gap: 0.2em;
+  margin-top: -0.22em;
+  align-items: center;
+	font-family: "Space Grotesk", sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--ink-soft);
+}
+
+.stat .sub small {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 13px;
+	color: var(--ink-faint);
+	font-weight: 400;
+}
+
 /* chart card */
 .card {
 	background: var(--surface);
@@ -296,18 +315,36 @@ h1 {
 	font-weight: 500;
 }
 
-/* winner */
-.winner {
+/* winners — least-cost and best-value tiles, side by side */
+.winners {
 	margin-top: var(--space-3);
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--space-3);
+}
+
+@media (max-width: 680px) {
+	.winners {
+		grid-template-columns: 1fr;
+	}
+}
+
+.winner {
 	background: var(--surface);
 	border: 1px solid var(--bv);
 	border-left: 5px solid var(--bv);
 	border-radius: var(--radius);
 	padding: var(--space-3);
 	display: flex;
-	gap: var(--space-3);
+	gap: var(--space-2);
 	align-items: center;
 	flex-wrap: wrap;
+}
+
+/* least-cost tile takes the muted-gold accent of its chart line */
+.winner-lc {
+	border-color: var(--lc);
+	border-left-color: var(--lc);
 }
 
 .winner .star {
@@ -319,12 +356,12 @@ h1 {
 
 .winner .body {
 	flex: 1;
-	min-width: 240px;
+	min-width: 160px;
 }
 
 .winner .tag {
 	font-family: "IBM Plex Mono", monospace;
-	font-size: 11px;
+	font-size: 13px;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--bv-deep);
@@ -352,10 +389,11 @@ h1 {
 .winner .price {
 	font-family: "Space Grotesk", sans-serif;
 	font-weight: 700;
-	font-size: 34px;
+	font-size: clamp(26px, 3vw, 32px);
 	color: var(--bv-deep);
 	letter-spacing: -0.02em;
 	text-align: right;
+	margin-left: auto;
 }
 
 .winner .price small {
@@ -366,6 +404,19 @@ h1 {
 	font-family: "IBM Plex Mono", monospace;
 	letter-spacing: 0.04em;
 	margin-top: 2px;
+}
+
+/* gold accent for the least-cost tile, mirroring the best-value tile's green:
+   bright accent on the star, deep accent on the label and cost. Name, meta and
+   units keep the neutral ink shades so both tiles read identically. Placed after
+   the base rules so it wins the cascade at equal specificity. */
+.winner-lc .star {
+	color: var(--lc);
+}
+
+.winner-lc .tag,
+.winner-lc .price {
+	color: var(--lc-deep);
 }
 
 footer {
