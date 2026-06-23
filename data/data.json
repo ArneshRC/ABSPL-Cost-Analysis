@@ -1,0 +1,296 @@
+[
+  {
+    "planName": "Utsav 400",
+    "validityDays": 450,
+    "speedMbps": 400,
+    "totalPriceRupees": 15600
+  },
+  {
+    "planName": "ANNUAL COMBO 1",
+    "validityDays": 420,
+    "speedMbps": 200,
+    "totalPriceRupees": 14000
+  },
+  {
+    "planName": "Utsav 250",
+    "validityDays": 420,
+    "speedMbps": 250,
+    "totalPriceRupees": 9000
+  },
+  {
+    "planName": "Gigablast",
+    "validityDays": 30,
+    "speedMbps": 1000,
+    "totalPriceRupees": 7000
+  },
+  {
+    "planName": "SME 1 Gbps",
+    "validityDays": 30,
+    "speedMbps": 1024,
+    "totalPriceRupees": 7000
+  },
+  {
+    "planName": "Utsav 175",
+    "validityDays": 390,
+    "speedMbps": 175,
+    "totalPriceRupees": 6900
+  },
+  {
+    "planName": "Utsav 140 (6M + 6M)",
+    "validityDays": 360,
+    "speedMbps": 140,
+    "totalPriceRupees": 5100
+  },
+  {
+    "planName": "SURAKSHA 300",
+    "validityDays": 150,
+    "speedMbps": 300,
+    "totalPriceRupees": 5000
+  },
+  {
+    "planName": "SURAKSHA 50",
+    "validityDays": 180,
+    "speedMbps": 50,
+    "totalPriceRupees": 4000
+  },
+  {
+    "planName": "Innovator",
+    "validityDays": 30,
+    "speedMbps": 510,
+    "totalPriceRupees": 3500
+  },
+  {
+    "planName": "SME 510",
+    "validityDays": 30,
+    "speedMbps": 510,
+    "totalPriceRupees": 3500
+  },
+  {
+    "planName": "Welcome 400+",
+    "validityDays": 90,
+    "speedMbps": 400,
+    "totalPriceRupees": 2850
+  },
+  {
+    "planName": "QTR 400+",
+    "validityDays": 90,
+    "speedMbps": 400,
+    "totalPriceRupees": 2700
+  },
+  {
+    "planName": "WELCOME IPTV HD [BANGLA]",
+    "validityDays": 90,
+    "speedMbps": 150,
+    "totalPriceRupees": 2700
+  },
+  {
+    "planName": "WELCOME IPTV HD [HINDI]",
+    "validityDays": 90,
+    "speedMbps": 150,
+    "totalPriceRupees": 2700
+  },
+  {
+    "planName": "Flash+",
+    "validityDays": 30,
+    "speedMbps": 400,
+    "totalPriceRupees": 2600
+  },
+  {
+    "planName": "SME 400",
+    "validityDays": 30,
+    "speedMbps": 400,
+    "totalPriceRupees": 2600
+  },
+  {
+    "planName": "Utsav 140 (3M + 3M)",
+    "validityDays": 180,
+    "speedMbps": 140,
+    "totalPriceRupees": 2550
+  },
+  {
+    "planName": "QTR 150+",
+    "validityDays": 90,
+    "speedMbps": 150,
+    "totalPriceRupees": 2370
+  },
+  {
+    "planName": "WELCOME 400",
+    "validityDays": 90,
+    "speedMbps": 400,
+    "totalPriceRupees": 2250
+  },
+  {
+    "planName": "QTR 400",
+    "validityDays": 90,
+    "speedMbps": 400,
+    "totalPriceRupees": 2110
+  },
+  {
+    "planName": "Welcome 150",
+    "validityDays": 90,
+    "speedMbps": 150,
+    "totalPriceRupees": 2100
+  },
+  {
+    "planName": "Welcome 80+ IPTV",
+    "validityDays": 90,
+    "speedMbps": 80,
+    "totalPriceRupees": 2100
+  },
+  {
+    "planName": "QTR 150",
+    "validityDays": 90,
+    "speedMbps": 150,
+    "totalPriceRupees": 1850
+  },
+  {
+    "planName": "QTR 50+",
+    "validityDays": 90,
+    "speedMbps": 50,
+    "totalPriceRupees": 1770
+  },
+  {
+    "planName": "Speed+",
+    "validityDays": 30,
+    "speedMbps": 250,
+    "totalPriceRupees": 1500
+  },
+  {
+    "planName": "SME 250",
+    "validityDays": 30,
+    "speedMbps": 250,
+    "totalPriceRupees": 1500
+  },
+  {
+    "planName": "Welcome 40",
+    "validityDays": 90,
+    "speedMbps": 40,
+    "totalPriceRupees": 1500
+  },
+  {
+    "planName": "QTR 50",
+    "validityDays": 90,
+    "speedMbps": 50,
+    "totalPriceRupees": 1350
+  },
+  {
+    "planName": "SME 175",
+    "validityDays": 30,
+    "speedMbps": 175,
+    "totalPriceRupees": 1150
+  },
+  {
+    "planName": "ALLIANCE 1099 IPTV [BANGLA]",
+    "validityDays": 30,
+    "speedMbps": 200,
+    "totalPriceRupees": 1099
+  },
+  {
+    "planName": "ALLIANCE 1099 IPTV [HINDI]",
+    "validityDays": 30,
+    "speedMbps": 200,
+    "totalPriceRupees": 1099
+  },
+  {
+    "planName": "ALLIANCE 1099 IPTV [ODIA]",
+    "validityDays": 30,
+    "speedMbps": 200,
+    "totalPriceRupees": 1099
+  },
+  {
+    "planName": "Cruise",
+    "validityDays": 30,
+    "speedMbps": 175,
+    "totalPriceRupees": 1000
+  },
+  {
+    "planName": "IPTV HD [HINDI]",
+    "validityDays": 30,
+    "speedMbps": 150,
+    "totalPriceRupees": 900
+  },
+  {
+    "planName": "IPTV HD [BANGLA]",
+    "validityDays": 30,
+    "speedMbps": 150,
+    "totalPriceRupees": 900
+  },
+  {
+    "planName": "BINGE 150",
+    "validityDays": 30,
+    "speedMbps": 150,
+    "totalPriceRupees": 850
+  },
+  {
+    "planName": "BINGE 100",
+    "validityDays": 30,
+    "speedMbps": 100,
+    "totalPriceRupees": 700
+  },
+  {
+    "planName": "ALLIANCE 699 IPTV [BANGLA]",
+    "validityDays": 30,
+    "speedMbps": 80,
+    "totalPriceRupees": 699
+  },
+  {
+    "planName": "ALLIANCE 699 IPTV [HINDI]",
+    "validityDays": 30,
+    "speedMbps": 80,
+    "totalPriceRupees": 699
+  },
+  {
+    "planName": "ALLIANCE 699 IPTV [ODIA]",
+    "validityDays": 30,
+    "speedMbps": 80,
+    "totalPriceRupees": 699
+  },
+  {
+    "planName": "Prime+",
+    "validityDays": 30,
+    "speedMbps": 150,
+    "totalPriceRupees": 650
+  },
+  {
+    "planName": "Zoom",
+    "validityDays": 30,
+    "speedMbps": 100,
+    "totalPriceRupees": 600
+  },
+  {
+    "planName": "BINGE 40",
+    "validityDays": 30,
+    "speedMbps": 40,
+    "totalPriceRupees": 600
+  },
+  {
+    "planName": "IPTV BASIC 50",
+    "validityDays": 30,
+    "speedMbps": 50,
+    "totalPriceRupees": 600
+  },
+  {
+    "planName": "STREAM",
+    "validityDays": 30,
+    "speedMbps": 80,
+    "totalPriceRupees": 550
+  },
+  {
+    "planName": "Starter",
+    "validityDays": 30,
+    "speedMbps": 80,
+    "totalPriceRupees": 500
+  },
+  {
+    "planName": "Launcher",
+    "validityDays": 30,
+    "speedMbps": 40,
+    "totalPriceRupees": 425
+  },
+  {
+    "planName": "BROWSER",
+    "validityDays": 30,
+    "speedMbps": 50,
+    "totalPriceRupees": 400
+  }
+]

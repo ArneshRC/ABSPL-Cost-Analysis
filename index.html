@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ABSPL Cost-Efficiency Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/colors.css">
+<link rel="stylesheet" href="styles/global.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script type="module" src="scripts/main.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>ABSPL Cost Analysis</h1>
+    <p class="lede">Every internet plan plotted by <b>monthly cost</b> against <b>speed</b>, normalised across billing terms. The flattest line from the origin marks the best raw bandwidth value. Built for the buyer who wants Mbps and nothing else.</p>
+  </header>
+
+  <section class="stats" id="stats">
+    <div class="stat"><p class="k">Best raw value</p><div class="v" id="s-best">—</div></div>
+    <div class="stat"><p class="k">Cheapest rate</p><div class="v" id="s-rate">—</div></div>
+    <div class="stat"><p class="k">Plans analysed</p><div class="v" id="s-count">—</div></div>
+    <div class="stat"><p class="k">Speed range</p><div class="v" id="s-range">—</div></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Cost per month vs speed</h2>
+        <p>Drag to zoom into the dense cluster. Hover any point — stacked plans expand to show each name and its validity.</p>
+      </div>
+      <div class="controls">
+        <div class="toggle" data-on="bv" id="t-bv"><span class="sw"></span>Best-value line</div>
+        <div class="toggle" data-on="lc" id="t-lc"><span class="sw"></span>Least-cost line</div>
+        <div class="toggle off" data-on="ols" id="t-ols"><span class="sw"></span>OLS fit</div>
+        <div class="toggle reset" id="t-reset" title="Reset zoom"><span class="ico">↺</span>Reset scale</div>
+      </div>
+    </div>
+    <div id="chart"></div>
+    <div class="note">↘ <span><b>Heteroscedastic:</b>&nbsp;cost spread is tight near the origin and fans out at high speed — billing term, not speed alone, drives the divergence.</span></div>
+  </section>
+
+  <section class="winner" id="winner">
+    <div class="star">★</div>
+    <div class="body">
+      <p class="tag">Most cost-efficient</p>
+      <p class="name" id="w-name">—</p>
+      <p class="meta" id="w-meta">—</p>
+    </div>
+    <div class="price" id="w-price">—</div>
+  </section>
+
+  <footer id="foot"></footer>
+
+</div>
+</body>
+</html>

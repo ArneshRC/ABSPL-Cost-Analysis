@@ -1,0 +1,32 @@
+/* Theme palette — neutral greys with desaturated Nord-aurora accents (no blues). */
+:root {
+	/* neutral greys — equal r,g,b for paper / surface / ink */
+	--paper: #ececec;
+	--surface: #ffffff;
+	--ink: #202020;
+	--ink-soft: #6b6b6b;
+	--ink-faint: #9b9b9b;
+	--line: #e0e0e0;
+	--grid: #eaeaea;
+	--axis: #cbcbcb;
+	--hover-line: #c4c4c4;
+
+	/* accents — nord aurora, desaturated, no blues */
+	--bv: #6f9a6a; /* best-value beam (green) */
+	--bv-deep: #4e7150;
+	--ols: #c77e5e; /* regression (terracotta) */
+	--ols-deep: #9c5a3d;
+	--lc: #b8a25e; /* least-cost line (muted gold) */
+	--lc-deep: #8f7c43;
+	--t30: #8e8e86; /* 30-day — neutral grey */
+	--t90: #a189ae; /* 60–90 day — muted purple */
+	--tlong: #bb7b7f; /* annual — muted rose */
+	--tmix: #565650; /* mixed validity — dark grey */
+	--reset: #bf616a; /* nord red */
+	--reset-deep: #9d4b53;
+	--reset-line: #e2c6c8;
+
+	/* translucent best-value green for the zoom slider fills */
+	--slider-fill: rgba(111, 154, 106, 0.12);
+	--slider-selected-fill: rgba(111, 154, 106, 0.18);
+}
