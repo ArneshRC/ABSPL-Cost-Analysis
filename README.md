@@ -56,7 +56,7 @@ for tr in soup.select("#tblTariffs tbody tr"):
         "planName": td[0].get_text(strip=True),
         "validityDays": int(re.sub(r"\D", "", td[1].get_text())),       # Validity -> days
         "speedMbps": int(re.sub(r"\D", "", td[2].get_text())),          # Speed -> Mbps
-        "totalPriceRupees": int(re.sub(r"[^\d]", "", td[5].get_text())),# Price -> number
+        "totalPriceRupees": int(float(re.sub(r"[^\d.]", "", td[5].get_text()))),# Price -> rupees
     })
 
 with open(OUT, "w", encoding="utf-8") as f:
