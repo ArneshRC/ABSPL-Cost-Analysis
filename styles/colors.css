@@ -12,12 +12,12 @@
 	--hover-line: #c4c4c4;
 
 	/* accents — nord aurora, desaturated, no blues */
-	--bv: #6f9a6a; /* best-value beam (green) */
-	--bv-deep: #4e7150;
+	--bv: #b8a25e; /* best-value beam (muted gold) */
+	--bv-deep: #8f7c43;
 	--ols: #c77e5e; /* regression (terracotta) */
 	--ols-deep: #9c5a3d;
-	--lc: #b8a25e; /* least-cost line (muted gold) */
-	--lc-deep: #8f7c43;
+	--lc: #6f9a6a; /* least-cost line (green) */
+	--lc-deep: #4e7150;
 	--fr: #4a7c70; /* efficient frontier (deep teal-green) */
 	--fr-deep: #355c52;
 	--t30: #8e8e86; /* 30-day — neutral grey */
