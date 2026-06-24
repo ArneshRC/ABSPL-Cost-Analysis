@@ -168,7 +168,7 @@ export function createCostSpeedChart({
 		},
 		xAxis: {
 			type: "value",
-			name: "Speed (Mbps)  →  faster",
+			name: "Speed (Mbps)  →",
 			nameLocation: "middle",
 			nameTextStyle: {
 				fontFamily: MONO_FONT,
@@ -184,7 +184,7 @@ export function createCostSpeedChart({
 		},
 		yAxis: {
 			type: "value",
-			name: "Cost / month (₹)  →  cheaper is lower",
+			name: "Cost / month (₹)  →",
 			nameLocation: "middle",
 			nameTextStyle: {
 				fontFamily: MONO_FONT,
