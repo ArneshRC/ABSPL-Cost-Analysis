@@ -61,14 +61,4 @@ export function renderSummary({
 		bestRateText,
 		el("small", "per Mbps · per month"),
 	);
-
-	document.getElementById("foot").replaceChildren(
-		el("b", "Method."),
-		" Cost normalised to a monthly basis: price ÷ (validity ÷ 30). " +
-			"Raw value = cost per month ÷ speed, so the best plan minimises ₹ per Mbps per month and lies on the flattest line through the origin. " +
-			`OLS fit: cost/month ≈ ₹${regression.slope.toFixed(2)}·speed + ₹${Math.round(regression.intercept)} ` +
-			`(R² = ${regression.rSquared.toFixed(2)}), across all ${regression.planCount} plans. ` +
-			"Colour encodes billing term; a point may stack several plans — hover to expand names and validities. " +
-			"OTT bundles, data caps and other extras are ignored by design — this map ranks raw speed per rupee only.",
-	);
 }

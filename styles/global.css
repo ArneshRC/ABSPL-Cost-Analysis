@@ -529,21 +529,6 @@ h1 {
 	color: var(--lc-deep);
 }
 
-footer {
-	margin-top: var(--space-4);
-	padding-top: var(--space-3);
-	border-top: 1px solid var(--line);
-	font-size: 12.5px;
-	color: var(--ink-faint);
-	line-height: 1.7;
-}
-
-/* biome-ignore lint/style/noDescendingSpecificity: scoped to a distinct parent (footer), no cascade overlap with other `b` rules */
-footer b {
-	color: var(--ink-soft);
-	font-weight: 600;
-}
-
 /* echarts tooltip */
 .tt {
 	font-family: "IBM Plex Sans", sans-serif;
