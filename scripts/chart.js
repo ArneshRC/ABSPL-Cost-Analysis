@@ -466,7 +466,7 @@ function buildFrontierSeries(frontier, theme) {
 					(previous.speedMbps + vertex.speedMbps) / 2,
 					Math.round((previous.costPerMonth + vertex.costPerMonth) / 2),
 				],
-				label: { formatter: `₹${vertex.marginalPerMbps.toFixed(2)}/Mbps` },
+				label: { formatter: `+₹${vertex.marginalPerMbps.toFixed(2)}/Mbps` },
 			};
 		}),
 		label: {
