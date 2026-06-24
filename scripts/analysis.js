@@ -6,8 +6,8 @@ import { validityDaysToMonths } from "./utils.js";
  * Normalise each raw plan onto a per-month basis and a per-Mbps-per-month rate,
  * then sort cheapest-rate-first so the best-value plan is index 0.
  */
-export function derivePlanMetrics(dataset) {
-	return dataset
+export function derivePlanMetrics(rawPlans) {
+	return rawPlans
 		.map((rawPlan) => {
 			const costPerMonth =
 				rawPlan.totalPriceRupees / validityDaysToMonths(rawPlan.validityDays);

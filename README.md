@@ -8,13 +8,16 @@ Visit this link for the visualization: <https://arneshrc.github.io/ABSPL-Cost-An
 
 Source: <https://alliancebroadband.co.in/tariff-tabular>
 
-Data is stored in `data/data.json`. It is an array of: 
+Data is stored in `data/data.json`, shaped as:
 ```ts
 {
-    planName: string,
-    validityDays: number,
-    speedMbps: number,
-    totalPriceRupees: number
+    updatedAt: string,   // ISO 8601 timestamp of the last refresh
+    rawPlans: {
+        planName: string,
+        validityDays: number,
+        speedMbps: number,
+        totalPriceRupees: number
+    }[]
 }
 ```
 
@@ -23,7 +26,7 @@ Data is stored in `data/data.json`. It is an array of:
 Open the page, then paste this into the DevTools console (F12). It copies the JSON to your clipboard.
 
 ```js
-const plans = [...document.querySelectorAll("#tblTariffs tbody tr")].map(tr => {
+const rawPlans = [...document.querySelectorAll("#tblTariffs tbody tr")].map(tr => {
   const td = tr.querySelectorAll("td");
   return {
     planName: td[0].innerText.trim(),
@@ -32,7 +35,8 @@ const plans = [...document.querySelectorAll("#tblTariffs tbody tr")].map(tr => {
     totalPriceRupees: +td[5].innerText.replace(/[^\d.]/g, ""),// Price -> number
   };
 });
-const json = JSON.stringify(plans, null, "\t");
+const payload = { updatedAt: new Date().toISOString(), rawPlans };
+const json = JSON.stringify(payload, null, "\t");
 copy(json);            // now in clipboard — paste into data/data.json
 console.log(json);
 ```
@@ -41,6 +45,7 @@ console.log(json);
 
 ```python
 import json, re
+from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
@@ -49,18 +54,23 @@ OUT = "data/data.json"
 
 soup = BeautifulSoup(requests.get(URL, timeout=30).text, "html.parser")
 
-plans = []
+rawPlans = []
 for tr in soup.select("#tblTariffs tbody tr"):
     td = tr.find_all("td")
-    plans.append({
+    rawPlans.append({
         "planName": td[0].get_text(strip=True),
         "validityDays": int(re.sub(r"\D", "", td[1].get_text())),       # Validity -> days
         "speedMbps": int(re.sub(r"\D", "", td[2].get_text())),          # Speed -> Mbps
         "totalPriceRupees": int(float(re.sub(r"[^\d.]", "", td[5].get_text()))),# Price -> rupees
     })
 
+payload = {
+    "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    "rawPlans": rawPlans,
+}
+
 with open(OUT, "w", encoding="utf-8") as f:
-    json.dump(plans, f, indent="\t", ensure_ascii=False)
+    json.dump(payload, f, indent="\t", ensure_ascii=False)
 ```
 
 Requires `requests` and `beautifulsoup4`. Re-run any time to refresh against the live page.

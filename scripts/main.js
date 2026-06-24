@@ -11,9 +11,9 @@ import { readThemePalette } from "./theme.js";
 
 async function initialiseDashboard() {
 	const response = await fetch("./data/data.json");
-	const dataset = await response.json();
+	const { updatedAt, rawPlans } = await response.json();
 
-	const plans = derivePlanMetrics(dataset);
+	const plans = derivePlanMetrics(rawPlans);
 	const bestValuePlan = plans[0];
 	const leastCostPlan = plans.reduce((cheapest, plan) =>
 		plan.costPerMonth < cheapest.costPerMonth ? plan : cheapest,
@@ -23,7 +23,7 @@ async function initialiseDashboard() {
 	const groups = groupOverlappingPlans(plans, bestValuePlan);
 	const theme = readThemePalette();
 
-	renderSummary({ dataset, bestValuePlan, leastCostPlan, regression });
+	renderSummary({ plans, updatedAt, bestValuePlan, leastCostPlan, regression });
 
 	const chart = createCostSpeedChart({
 		chartElement: document.getElementById("chart"),

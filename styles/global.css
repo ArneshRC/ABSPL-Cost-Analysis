@@ -138,10 +138,14 @@ h1 {
 	font-size: 26px;
 	letter-spacing: -0.01em;
 	color: var(--ink);
+	white-space: nowrap;
 }
 
 .stat .v small {
-	font-size: 14px;
+	display: block;
+	margin-top: -0.18em;
+	line-height: 1.1;
+	font-size: 17px;
 	color: var(--ink-soft);
 	font-weight: 500;
 }
@@ -163,6 +167,17 @@ h1 {
 	font-size: 13px;
 	color: var(--ink-faint);
 	font-weight: 400;
+}
+
+/* shrink the headline value so the two-column mobile tiles don't clip it */
+@media (max-width: 680px) {
+	.stat .v {
+		font-size: 20px;
+	}
+
+	.stat .v small {
+		font-size: 14px;
+	}
 }
 
 /* chart card */

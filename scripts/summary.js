@@ -6,13 +6,15 @@ import { formatRupees, el } from "./utils.js";
  * Fill the surrounding text panels from the derived metrics.
  *
  * @param {object}   args
- * @param {object[]} args.dataset        Original plan records (for the count).
+ * @param {object[]} args.plans          Normalised plan records (for the count and cost range).
+ * @param {string}   args.updatedAt      ISO timestamp of the last data refresh.
  * @param {object}   args.bestValuePlan  Cheapest-rate plan after normalisation.
  * @param {object}   args.leastCostPlan  Plan with the lowest monthly cost.
  * @param {object}   args.regression     OLS fit summary with speed range.
  */
 export function renderSummary({
-	dataset,
+	plans,
+	updatedAt,
 	bestValuePlan,
 	leastCostPlan,
 	regression,
@@ -20,21 +22,21 @@ export function renderSummary({
 	const bestRateText = `₹${bestValuePlan.costPerMbpsPerMonth.toFixed(2)}`;
 
 	// stat strip
-	document.getElementById("s-lc-name").textContent = leastCostPlan.planName;
-	document.getElementById("s-lc-cost").replaceChildren(
-		`${formatRupees(leastCostPlan.costPerMonth)} `,
-		el("small", "/month"),
+	const updated = new Date(updatedAt);
+	document.getElementById("s-updated").replaceChildren(
+		updated.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+		el("small", updated.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })),
 	);
-	document.getElementById("s-bv-name").textContent = bestValuePlan.planName;
-	document.getElementById("s-bv-rate").replaceChildren(
-		`${bestRateText} `,
-		el("small", "/Mbps/month"),
-	);
-	document.getElementById("s-count").textContent = dataset.length;
+	document.getElementById("s-count").textContent = plans.length;
 	document.getElementById("ols-r2").textContent = regression.rSquared.toFixed(3);
 	document.getElementById("s-range").replaceChildren(
-		`${regression.minSpeed}–${regression.maxSpeed} `,
+		`${regression.minSpeed}–${regression.maxSpeed}`,
 		el("small", "Mbps"),
+	);
+	const maxCostPerMonth = Math.max(...plans.map((plan) => plan.costPerMonth));
+	document.getElementById("s-cost-range").replaceChildren(
+		`${formatRupees(leastCostPlan.costPerMonth)}–${formatRupees(maxCostPerMonth)}`,
+		el("small", "/month"),
 	);
 
 	// least-cost winner tile
@@ -47,7 +49,7 @@ export function renderSummary({
 	);
 	document.getElementById("wlc-price").replaceChildren(
 		formatRupees(leastCostPlan.costPerMonth),
-		el("small", "per month"),
+		el("small", "/month"),
 	);
 
 	// best-value winner tile
@@ -60,6 +62,6 @@ export function renderSummary({
 	);
 	document.getElementById("wbv-price").replaceChildren(
 		bestRateText,
-		el("small", "per Mbps · per month"),
+		el("small", "/Mbps/month"),
 	);
 }
