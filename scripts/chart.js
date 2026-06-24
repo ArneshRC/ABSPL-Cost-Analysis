@@ -98,16 +98,31 @@ export function createCostSpeedChart({
 		return series;
 	}
 
-	/* Cheapest plan offering at least a given speed — the efficient-frontier
-	   point at that speed. When a hovered plan costs more than this, it is
-	   superseded by this cheaper, at-least-as-fast plan; the gap is Δ. */
+	/* The plan that supersedes a point at the given speed/cost: one that is no
+	   costlier and no slower, yet strictly better on at least one axis. A
+	   cheaper, at-least-as-fast plan gives a positive Δ; an equal-price but
+	   faster plan supersedes on speed even though Δ = 0. Prefer the biggest
+	   saving, then the biggest speed gain. Null when the point sits on the
+	   value frontier and nothing dominates it. */
 	const allPlans = groups.flatMap((group) => group.plans);
-	function cheapestPlanAtLeastSpeed(speedMbps) {
-		return allPlans
-			.filter((plan) => plan.speedMbps >= speedMbps)
-			.reduce((cheapest, plan) =>
-				plan.costPerMonth < cheapest.costPerMonth ? plan : cheapest,
-			);
+	function supersedingPlan(speedMbps, costPerMonth) {
+		let best = null;
+		for (const plan of allPlans) {
+			if (plan.costPerMonth > costPerMonth || plan.speedMbps < speedMbps)
+				continue;
+			const cheaper = plan.costPerMonth < costPerMonth;
+			const faster = plan.speedMbps > speedMbps;
+			if (!cheaper && !faster) continue; // identical, not superior
+			if (
+				!best ||
+				plan.costPerMonth < best.costPerMonth ||
+				(plan.costPerMonth === best.costPerMonth &&
+					plan.speedMbps > best.speedMbps)
+			) {
+				best = plan;
+			}
+		}
+		return best;
 	}
 
 	function formatTooltip(params) {
@@ -115,12 +130,13 @@ export function createCostSpeedChart({
 		const [speedMbps, costPerMonth] = params.data.value;
 		const ratePerMbps = (costPerMonth / speedMbps).toFixed(2);
 		const stackedPlans = params.data.plans;
-		const supersededBy = cheapestPlanAtLeastSpeed(speedMbps);
-		const frontierOverpay = costPerMonth - supersededBy.costPerMonth;
-		const deltaText = `Δ = ${formatRupees(frontierOverpay)}/mo`;
+		const supersededBy = supersedingPlan(speedMbps, costPerMonth);
 
-		let subLine = `${formatRupees(costPerMonth)}/month (${deltaText})`;
-		if (Math.round(frontierOverpay) > 0) {
+		const frontierOverpay = supersededBy
+			? costPerMonth - supersededBy.costPerMonth
+			: 0;
+		let subLine = `${formatRupees(costPerMonth)}/month (Δ = ${formatRupees(frontierOverpay)}/mo)`;
+		if (supersededBy) {
 			subLine +=
 				`<span class="tt-sup">Superseded by: ${supersededBy.planName} ` +
 				`(${supersededBy.speedMbps} Mbps, ${formatRupees(supersededBy.costPerMonth)}/mo)</span>`;
