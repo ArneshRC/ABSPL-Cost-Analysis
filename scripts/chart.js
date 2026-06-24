@@ -247,7 +247,7 @@ export function createCostSpeedChart({
 				left: mobile ? 60 : 74,
 				right: mobile ? 16 : 30,
 				top: 45,
-				bottom: mobile ? 92 : 96,
+				bottom: 110
 			},
 			legend: {
 				top: 0,
