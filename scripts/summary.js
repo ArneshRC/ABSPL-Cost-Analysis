@@ -31,6 +31,7 @@ export function renderSummary({
 		el("small", "/Mbps/month"),
 	);
 	document.getElementById("s-count").textContent = dataset.length;
+	document.getElementById("ols-r2").textContent = regression.rSquared.toFixed(3);
 	document.getElementById("s-range").replaceChildren(
 		`${regression.minSpeed}–${regression.maxSpeed} `,
 		el("small", "Mbps"),
