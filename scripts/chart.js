@@ -98,16 +98,16 @@ export function createCostSpeedChart({
 		return series;
 	}
 
-	/* Cheapest monthly cost among plans offering at least a given speed — the
-	   efficient-frontier cost at that speed. How far a plan sits above this is
-	   what the tooltip reports as Δ; frontier plans read zero. */
+	/* Cheapest plan offering at least a given speed — the efficient-frontier
+	   point at that speed. When a hovered plan costs more than this, it is
+	   superseded by this cheaper, at-least-as-fast plan; the gap is Δ. */
 	const allPlans = groups.flatMap((group) => group.plans);
-	function cheapestCostAtLeastSpeed(speedMbps) {
-		return Math.min(
-			...allPlans
-				.filter((plan) => plan.speedMbps >= speedMbps)
-				.map((plan) => plan.costPerMonth),
-		);
+	function cheapestPlanAtLeastSpeed(speedMbps) {
+		return allPlans
+			.filter((plan) => plan.speedMbps >= speedMbps)
+			.reduce((cheapest, plan) =>
+				plan.costPerMonth < cheapest.costPerMonth ? plan : cheapest,
+			);
 	}
 
 	function formatTooltip(params) {
@@ -115,14 +115,21 @@ export function createCostSpeedChart({
 		const [speedMbps, costPerMonth] = params.data.value;
 		const ratePerMbps = (costPerMonth / speedMbps).toFixed(2);
 		const stackedPlans = params.data.plans;
-		const frontierOverpay = costPerMonth - cheapestCostAtLeastSpeed(speedMbps);
+		const supersededBy = cheapestPlanAtLeastSpeed(speedMbps);
+		const frontierOverpay = costPerMonth - supersededBy.costPerMonth;
 		const deltaText = `Δ = ${formatRupees(frontierOverpay)}/mo`;
+
+		let subLine = `${formatRupees(costPerMonth)}/month (${deltaText})`;
+		if (Math.round(frontierOverpay) > 0) {
+			subLine +=
+				`<span class="tt-sup">Superseded by: ${supersededBy.planName} ` +
+				`(${supersededBy.speedMbps} Mbps, ${formatRupees(supersededBy.costPerMonth)}/mo)</span>`;
+		}
 
 		let html =
 			`<div class="tt"><div class="tt-h"><span style="color:${theme.ink}">${speedMbps} Mbps</span>` +
 			`<span>₹${ratePerMbps}/Mbps/mo</span></div>` +
-			`<div class="tt-sub" style="color:${theme.leastCostDeep}">${formatRupees(costPerMonth)}/month ` +
-			`(${deltaText})</div>`;
+			`<div class="tt-sub" style="color:${theme.leastCostDeep}">${subLine}</div>`;
 		for (const plan of stackedPlans) {
 			html +=
 				`<div class="tt-row"><span class="nm">${plan.planName}</span>` +

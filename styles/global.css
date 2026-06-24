@@ -577,6 +577,15 @@ footer b {
 	border-bottom: 1px solid var(--line);
 }
 
+.tt-sup {
+	display: block;
+	margin-top: 5px;
+	font-family: "IBM Plex Sans", sans-serif;
+	font-size: 11.5px;
+	font-weight: 400;
+	color: var(--ink-faint);
+}
+
 .tt-row {
 	display: flex;
 	justify-content: space-between;
